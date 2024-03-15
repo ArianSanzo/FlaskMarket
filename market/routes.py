@@ -1,6 +1,6 @@
-from market import app
-from flask import render_template
-from market.models import Item
+from market import app, db
+from flask import render_template, redirect, url_for
+from market.models import Item, User
 from market.forms import RegisterForm
 
 
@@ -16,7 +16,17 @@ def market_page():
     return render_template('market.html', items=items)
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = User(username=form.username.data,
+                              email_address=form.email_address.data,
+                              password_hash=form.password1.data)
+        db.session.add(user_to_create)
+        db.session.commit()
+        return redirect(url_for('market_page'))
+    if form.errors != {}:  # If there aren´t errors from the validations
+        for error_msg in form.errors.values():
+            print("Error with: ", error_msg)
     return render_template('register.html', form=form)
