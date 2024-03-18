@@ -40,7 +40,7 @@
                         </a>
 
                         <a class="nav-link" href="#">Welcome, {{ current_user.username }}</a>
-                        <a class="nav-link" href="#">Logout</a>
+                        <a class="nav-link" href="{{ url_for('logout_page') }}">Logout</a>
                     </div>
                 {% else %}
                     <div class="navbar-nav">
