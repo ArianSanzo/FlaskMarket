@@ -3,8 +3,12 @@
 Market Page
 {% endblock %}
 {% block content %}
-<h1>Market Page</h1>
-    <table class="table table-dark table-striped table-hover">
+  <div class="row" style="margin-top: 20px; margin-left: 20px">
+    <div class="col-8">
+      <h2>Available Items on the Market:</h2>
+      <p>Click on one of the items to start buying.</p>
+      <br>
+      <table class="table table-dark table-striped table-hover">
       <thead>
         <tr>
           <th scope="col">ID</th>
@@ -16,17 +20,30 @@ Market Page
       </thead>
       <tbody>
       {% for item in items %}
+      {% include 'includes/items_modals.html' %}
         <tr>
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.barcode }}</td>
           <td>${{ item.price }}</td>
           <td>
-            <button type="button" class="btn btn-outline-info">More Info</button>
-            <button type="button" class="btn btn-outline-success">Purchase this item</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_MoreInfo-{{ item.id }}">
+              More Info
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal_PurchaseConfirm-{{ item.id }}">
+              Purchase this item
+            </button>
           </td>
         </tr>
       {% endfor %}
       </tbody>
     </table>
+    </div>
+    <div class="col-4">
+      <h2>Owned Items:</h2>
+      <p>Click on sell item to return it to the Market.</p>
+      <br>
+    </div>
+  </div>
+
 {% endblock %}
